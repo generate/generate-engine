@@ -1,0 +1,103 @@
+{
+  "name": "generate-engine",
+  "description": "Generate a new consolidate-style engine project, with starter code and unit tests.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/generate/generate-engine",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "generate/generate-engine",
+  "bugs": {
+    "url": "https://github.com/generate/generate-engine/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "generator.js",
+    "index.js",
+    "LICENSE",
+    "README.md",
+    "templates"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "extend-shallow": "^2.0.1",
+    "generate-project": "^0.2.0",
+    "is-valid-app": "^0.2.0"
+  },
+  "devDependencies": {
+    "base-fs-tree": "^0.2.2",
+    "delete": "^0.3.2",
+    "generate": "^0.9.8",
+    "gulp-format-md": "^0.1.9",
+    "mocha": "^2.5.3",
+    "npm-install-global": "^0.1.2",
+    "verb-generate-readme": "^0.1.28",
+    "verb-repo-data": "^0.1.11"
+  },
+  "keywords": [
+    "boilerplate",
+    "build",
+    "cli",
+    "cli-app",
+    "command-line",
+    "create",
+    "dev",
+    "development",
+    "engine",
+    "framework",
+    "front",
+    "frontend",
+    "generate",
+    "generate-generator",
+    "generate-plugin",
+    "generategenerator",
+    "generateplugin",
+    "generator",
+    "init",
+    "initialize",
+    "new",
+    "plugin",
+    "project",
+    "projects",
+    "scaffold",
+    "scaffolder",
+    "scaffolding",
+    "template",
+    "templates",
+    "webapp",
+    "yeoman",
+    "yo"
+  ],
+  "verb": {
+    "reflinks": [
+      "assemble",
+      "base",
+      "generate",
+      "generate-dest",
+      "generate-install",
+      "gulp",
+      "consolidate",
+      "mocha"
+    ],
+    "toc": {
+      "method": "preWrite"
+    },
+    "layout": "generator",
+    "tasks": [
+      "readme"
+    ],
+    "plugins": [
+      "gulp-format-md"
+    ],
+    "lint": {
+      "reflinks": true
+    },
+    "related": {
+      "list": []
+    }
+  }
+}
