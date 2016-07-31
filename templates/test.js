@@ -2,6 +2,8 @@
 rename:
   dirname: test
   basename: test.js
+install:
+  devDependencies: ['mocha']
 ---
 'use strict';
 

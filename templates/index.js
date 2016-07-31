@@ -1,3 +1,7 @@
+---
+install:
+  devDependencies: ['extend-shallow']
+---
 'use strict';
 
 var extend = require('extend-shallow');
