@@ -1,6 +1,6 @@
 'use strict';
 
-var isTravis = process.env.CI && process.env.TRAVIS;
+var isTravis = process.env.CI || process.env.TRAVIS;
 
 require('mocha');
 var fs = require('fs');
