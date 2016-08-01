@@ -1,5 +1,7 @@
 'use strict';
 
+var isTravis = process.env.CI && process.env.TRAVIS;
+
 require('mocha');
 var fs = require('fs');
 var path = require('path');
@@ -68,19 +70,19 @@ describe('generate-engine', function() {
     });
   });
 
-  if (!process.env.CI && !process.env.TRAVIS) {
-    describe('generator (CLI)', function() {
-      it('should run the default task using the `generate-engine` name', function(cb) {
-        app.use(generator);
-        app.generate('generate-engine', exists('index.js', cb));
-      });
-
-      it('should run the default task using the `engine` generator alias', function(cb) {
-        app.use(generator);
-        app.generate('engine', exists('index.js', cb));
-      });
+  describe('generator (CLI)', function() {
+    it('should run the default task using the `generate-engine` name', function(cb) {
+      if (isTravis) return this.skip();
+      app.use(generator);
+      app.generate('generate-engine', exists('index.js', cb));
     });
-  }
+
+    it('should run the default task using the `engine` generator alias', function(cb) {
+      if (isTravis) return this.skip();
+      app.use(generator);
+      app.generate('engine', exists('index.js', cb));
+    });
+  });
 
   describe('engine (API)', function() {
     it('should generate an index.js file', function(cb) {
