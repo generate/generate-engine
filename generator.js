@@ -23,6 +23,10 @@ module.exports = function(app) {
     return ext.charAt(0) === '.' ? ext : '.' + ext;
   });
 
+  /**
+   * Middleware
+   */
+
   app.preWrite(/fixtures/, function(file, next) {
     var ext = app.data('engineExt');
     if (ext) file.extname = ext;
@@ -30,7 +34,7 @@ module.exports = function(app) {
   });
 
   /**
-   * Scaffold out a [consolidate][]-style engine project.
+   * Scaffold out the [necessary files](#default-1) for a [consolidate][]-style engine project.
    *
    * ```sh
    * $ gen engine
@@ -39,8 +43,23 @@ module.exports = function(app) {
    * @api public
    */
 
-  app.task('engine', ['test', 'editorconfig', 'minimal', 'index', 'install']);
-  task(app, 'default', null, ['engine']);
+  app.task('engine', ['test', 'dotfiles', 'index', 'rootfiles', 'install']);
+  app.task('default', ['engine']);
+
+  /**
+   * Scaffold out a [minimal](#minimal-1) engine project.
+   *
+   * ```sh
+   * $ gen engine:min
+   * # or
+   * $ gen engine:minimal
+   * ```
+   * @name minimal
+   * @api public
+   */
+
+  app.task('min', ['minimal']);
+  app.task('minimal', ['gitignore', 'index', 'mit', 'package', 'readme']);
 
   /**
    * Write only the `index.js` file with starter code for creating a [consolidate][]-style
@@ -56,7 +75,7 @@ module.exports = function(app) {
   task(app, 'index', 'index.js');
 
   /**
-   * Write a `test.js` file with [mocha][]-style unit tests for your engine.
+   * Write only [test files](#test-1) with [mocha][]-style unit tests for your engine.
    *
    * ```sh
    * $ gen engine:test
@@ -67,15 +86,6 @@ module.exports = function(app) {
 
   task(app, 'test', 'test.js', ['fixtures']);
   task(app, 'fixtures', 'fixtures/*.tmpl');
-
-  /**
-   * Generate project trees
-   */
-
-  app.task('trees', function(cb) {
-    app.enable('silent');
-    app.build(['tree-default', 'tree-index', 'tree-test'], cb);
-  });
 };
 
 /**
@@ -83,28 +93,19 @@ module.exports = function(app) {
  */
 
 function task(app, name, pattern, dependencies) {
-  app.task(`tree-${name}`, [name], createTree(app));
   app.task(name, dependencies || [], function(cb) {
-    if (!pattern) return cb();
     return file(app, pattern);
   });
 }
 
-function file(app, pattern, options) {
-  var opts = extend({}, app.options, options);
+function file(app, pattern) {
+  var opts = extend({}, app.base.options, app.options);
   var srcBase = opts.srcBase || path.join(__dirname, 'templates');
   return app.src(pattern, {cwd: srcBase})
     .pipe(app.renderFile('*', app.base.cache.data))
     .pipe(app.conflicts(app.cwd))
-    .pipe(app.dest(app.cwd));
-}
-
-function createTree(app) {
-  return function(cb) {
-    var dest = app.options.trees || path.join(app.cwd, 'trees');
-    var name = this.name.replace(/^tree-/, '');
-    app.createTrees({name: name, dest: dest});
-    app.log.time('creating tree for', app.log.green(name));
-    cb();
-  }
+    .pipe(app.dest(function(file) {
+      app.base.emit('dest', file);
+      return app.cwd;
+    }));
 }

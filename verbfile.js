@@ -1,33 +1,13 @@
 'use strict';
 
-var tree = require('base-fs-tree');
-var del = require('delete');
 var path = require('path');
+var trees = require('verb-trees');
+var del = require('delete');
+var generator = require('./');
 
 module.exports = function(app) {
   app.use(require('verb-generate-readme'));
-  app.register('project', require('./'));
-
-  /**
-   * Load `tree` partials
-   */
-
-  app.task('trees', function(cb) {
-    var gen = app.generator('project')
-      .option('layout', false)
-      .option('dest', '.temp-trees')
-      .preRender(/./, function(file, next) {
-        file.content = '{}';
-        next();
-      });
-
-    gen.build('trees', function(err) {
-      if (err) return cb(err);
-      app.include('trees', {content: gen.compareTrees()});
-      app.option('dest', process.cwd()); //<= reset dest
-      cb();
-    });
-  });
+  app.use(trees(generator, ['default', 'index', 'minimal', 'test']));
 
   app.task('delete', function(cb) {
     del('.temp-trees', cb);
