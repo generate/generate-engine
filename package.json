@@ -29,14 +29,14 @@
     "is-valid-app": "^0.2.0"
   },
   "devDependencies": {
-    "base-fs-tree": "^0.2.2",
     "delete": "^0.3.2",
     "generate": "^0.9.8",
     "gulp-format-md": "^0.1.9",
     "mocha": "^2.5.3",
     "npm-install-global": "^0.1.2",
     "verb-generate-readme": "^0.1.28",
-    "verb-repo-data": "^0.1.11"
+    "verb-repo-data": "^0.1.11",
+    "verb-trees": "^0.1.0"
   },
   "keywords": [
     "boilerplate",
